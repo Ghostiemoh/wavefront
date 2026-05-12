@@ -7,9 +7,10 @@
  * - MCP query interpretation (NL → structured query)
  */
 
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const genai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY ?? "" });
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY ?? "");
+const genAIVerdicts = new GoogleGenerativeAI(process.env.GEMINI_API_KEY_VERDICTS || process.env.GEMINI_API_KEY || "");
 
 const MODEL = "gemini-2.5-flash";
 
@@ -39,12 +40,10 @@ Rules:
 - Max 50 words total`;
 
   try {
-    const response = await genai.models.generateContent({
-      model: MODEL,
-      contents: prompt,
-    });
-    return response.text?.trim() ?? "Narrative intelligence unavailable.";
-  } catch {
+    const response = await genAI.getGenerativeModel({ model: MODEL }).generateContent(prompt);
+    return response.response.text().trim() || "Narrative intelligence unavailable.";
+  } catch (error) {
+    console.error("[Gemini] Narrative summary error:", error);
     return `${category} narrative showing ${velocity} momentum across ${topTokens.length} correlated tokens with ${volumeChange > 0 ? "+" : ""}${volumeChange.toFixed(1)}% average volume shift.`;
   }
 }
@@ -80,12 +79,10 @@ Rules:
 - Speak like a Bloomberg terminal analyst`;
 
   try {
-    const response = await genai.models.generateContent({
-      model: MODEL,
-      contents: prompt,
-    });
-    return response.text?.trim() ?? "Verdict generation unavailable.";
-  } catch {
+    const response = await genAIVerdicts.getGenerativeModel({ model: MODEL }).generateContent(prompt);
+    return response.response.text().trim() || "Verdict generation unavailable.";
+  } catch (error) {
+    console.error("[Gemini] Token verdict error:", error);
     return `${symbol} rated ${riskGrade} (${riskScore}/100). ${flags.length > 0 ? `Key flags: ${flags.slice(0, 2).join(", ")}.` : "No critical flags detected."} Liquidity at $${(metrics.liquidity / 1e6).toFixed(2)}M.`;
   }
 }
@@ -115,14 +112,12 @@ Respond in JSON only (no markdown fencing):
 }`;
 
   try {
-    const response = await genai.models.generateContent({
-      model: MODEL,
-      contents: prompt,
-    });
-    const text = response.text?.trim() ?? "{}";
+    const response = await genAI.getGenerativeModel({ model: MODEL }).generateContent(prompt);
+    const text = response.response.text().trim() || "{}";
     const cleaned = text.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
     return JSON.parse(cleaned);
-  } catch {
+  } catch (error) {
+    console.error("[Gemini] MCP interpretation error:", error);
     return {
       intent: "find_tokens",
       filters: {},

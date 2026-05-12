@@ -29,7 +29,7 @@ const cache = new Map<string, CacheEntry<unknown>>();
 
 function getHeaders(lane: ApiLane): HeadersInit {
   return {
-    "x-api-key": API_KEYS[lane],
+    "X-API-KEY": API_KEYS[lane],
     "x-chain": "solana",
     accept: "application/json",
   };
@@ -103,12 +103,21 @@ export async function birdeyeFetch<T>(
     });
 
     if (!response.ok) {
-      if (response.status === 429) {
-        // Return stale cache on rate limit
-        const stale = getStaleCached<T>(cacheKey);
-        if (stale) return stale;
-        throw new Error(`Birdeye rate limit (429) on ${path}`);
+      if (response.status === 429 || response.status === 401 || response.status === 403) {
+        // Try fallback to CHARTS if we're not already on it
+        if (lane !== "CHARTS") {
+          console.warn(`[Birdeye] Lane ${lane} failed (${response.status}). Retrying with CHARTS fallback.`);
+          return birdeyeFetch<T>(path, "CHARTS", options);
+        }
+
+        if (response.status === 429) {
+          const stale = getStaleCached<T>(cacheKey);
+          if (stale) return stale;
+          throw new Error(`Birdeye rate limit (429) on ${path}`);
+        }
       }
+      const errorBody = await response.text();
+      console.error(`[Birdeye] API error: ${response.status} on ${path}. Body:`, errorBody);
       throw new Error(`Birdeye API error: ${response.status} on ${path}`);
     }
 

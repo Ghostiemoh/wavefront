@@ -34,7 +34,7 @@ export async function GET(
       data,
     });
   } catch (error) {
-    console.error("History fetch error:", error);
+    console.error("[API] History fetch error:", error);
     // Graceful degradation
     return NextResponse.json({
       success: true,

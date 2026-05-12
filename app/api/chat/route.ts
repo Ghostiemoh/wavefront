@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const genai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY ?? "" });
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY ?? "");
+const MODEL = "gemini-2.5-flash";
 
 export async function POST(req: Request) {
   try {
@@ -37,17 +38,20 @@ Your persona:
 
     const prompt = `${systemPrompt}\n\nChat History:\n${historyText}\n\nUser: ${message}\nCopilot:`;
 
-    const response = await genai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: prompt,
-    });
+    const response = await genAI.getGenerativeModel({ model: MODEL }).generateContent(prompt);
 
-    return NextResponse.json({
+    return Response.json({
       success: true,
-      text: response.text?.trim() ?? "I cannot analyze that right now.",
+      text: response.response.text().trim() || "I cannot analyze that right now.",
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Copilot error:", error);
+    if (error.status === 429) {
+      return NextResponse.json({ 
+        success: true, 
+        text: "I'm currently processing a high volume of requests. Please wait a moment before asking another question." 
+      });
+    }
     return NextResponse.json({ success: false, error: "Analysis failed" }, { status: 500 });
   }
 }

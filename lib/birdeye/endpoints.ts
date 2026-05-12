@@ -46,7 +46,7 @@ export async function fetchNewListings(
 ): Promise<{ items: NewListingToken[] }> {
   return birdeyeFetch<{ items: NewListingToken[] }>(
     "/defi/v2/tokens/new_listing",
-    "CHARTS",
+    "TRADES",
     {
       params: {
         time_frame: timeFrame,
@@ -67,7 +67,7 @@ export async function fetchTokenOverview(
 ): Promise<TokenOverview> {
   return birdeyeFetch<TokenOverview>(
     "/defi/token_overview",
-    "CHARTS",
+    "TRADES",
     {
       params: { address },
       cacheTtl: 5 * 60 * 1000,
@@ -95,7 +95,7 @@ export async function fetchTokenPrice(
 ): Promise<TokenPrice> {
   return birdeyeFetch<TokenPrice>(
     "/defi/price",
-    "CHARTS",
+    "TRADES",
     {
       params: { address },
       cacheTtl: 30 * 1000, // 30s — price is time-sensitive
@@ -135,7 +135,7 @@ export async function fetchMemeTokens(
 ): Promise<{ items: MemeToken[] }> {
   return birdeyeFetch<{ items: MemeToken[] }>(
     "/defi/v3/token/meme/list",
-    "CHARTS",
+    "TRADES",
     {
       params: {
         sort_by: sortBy,
@@ -181,7 +181,7 @@ export async function searchTokens(
 ): Promise<{ items: TokenOverview[] }> {
   return birdeyeFetch<{ items: TokenOverview[] }>(
     "/defi/v3/search",
-    "CHARTS",
+    "HOLDERS",
     {
       params: {
         keyword,
@@ -207,7 +207,7 @@ export async function fetchTokenHistory(
 ): Promise<TokenHistory> {
   return birdeyeFetch<TokenHistory>(
     "/defi/history_price",
-    "CHARTS",
+    "HOLDERS",
     {
       params: {
         address,

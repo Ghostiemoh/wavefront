@@ -172,6 +172,7 @@ export async function detectNarratives(): Promise<NarrativeEvent[]> {
 
   // Normalize and deduplicate
   const allTokens = normalizeToClusterable(trending, meme, smartMoney);
+  console.log(`[Narratives] Fetched ${trending.length} trending, ${meme.length} meme, ${smartMoney.length} smart money. Total unique: ${allTokens.length}`);
 
   // Cluster by narrative category
   const clusters = new Map<NarrativeCategory, ClusterableToken[]>();
@@ -180,6 +181,8 @@ export async function detectNarratives(): Promise<NarrativeEvent[]> {
     if (!clusters.has(category)) clusters.set(category, []);
     clusters.get(category)!.push(token);
   }
+
+  console.log(`[Narratives] Formed ${clusters.size} initial clusters. Categories:`, Array.from(clusters.keys()));
 
   // Generate narrative events for meaningful clusters
   const narratives: NarrativeEvent[] = [];
