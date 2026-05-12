@@ -1,31 +1,78 @@
-# Wavefront Intelligence Engine
+# Wavefront-ai
 
-Wavefront is an **AI-native onchain intelligence infrastructure** built for Solana, powered by the Birdeye API. 
+> Onchain market intelligence for Solana — narrative clustering, risk scoring, and AI-powered token analysis in one terminal.
 
-## The Core Problem
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-wavefront--ai.vercel.app-black?style=flat-square)](https://wavefront-ai.vercel.app)
+[![Built with Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)](https://nextjs.org)
+[![Powered by Birdeye](https://img.shields.io/badge/Powered%20by-Birdeye%20API-blue?style=flat-square)](https://birdeye.so)
 
-Hackathons are flooded with generic "Solana Monitors" that simply list trending tokens or raw volume metrics. But showing a trader a list of 50 pumping tokens isn't intelligence—it's noise. **Crypto traders react too late because existing tools only show raw data, forcing them to manually parse the market.**
+---
 
-## How Wavefront is Different
+## Overview
 
-Unlike standard dashboards, Wavefront *interprets* raw data into actionable intelligence:
+Wavefront transforms raw Solana market data into structured, actionable intelligence. Instead of displaying token lists, it clusters what is moving into human-readable narratives, filters out low-liquidity scams algorithmically, and routes deep token metadata directly into a Gemini-powered analyst — so traders get signal, not noise.
 
-1. **Algorithmic Narrative Clustering**: Wavefront doesn't just list trending tokens. It parses thousands of Birdeye data points to cluster "what is moving" into human-readable narratives (e.g., AI Infrastructure, DePIN, RWA) before they hit Twitter.
-2. **Zero-Liquidity Risk Penalization**: The vast majority of newly listed tokens are honeypots or dead. Wavefront's custom Risk Scorer (`risk-scorer.ts`) mathematically eliminates $0-$100 liquidity scams, instantly grading them an "F" to protect the user.
-3. **Machine-Readable Intelligence (Copilot)**: Wavefront feeds Birdeye's deep security and liquidity data *directly into an AI's brain*. The integrated Gemini Copilot acts as a Bloomberg-tier analyst. It doesn't guess; it is pre-loaded with the exact holder concentration, freeze-authority status, and liquidity metrics of the token you are viewing.
+Built for the [Birdeye Data BIP Competition](https://birdeye.so).
 
-## Quick Start
+---
+
+## Features
+
+- **Narrative Clustering** — Parses Birdeye data points to surface emerging themes (AI Infrastructure, DePIN, RWA) before they trend on social media
+- **Risk Scorer** — Mathematically penalizes zero-liquidity tokens; scams and honeypots are automatically graded `F` and filtered out
+- **AI Copilot** — A Gemini-backed analyst pre-loaded with live holder concentration, freeze-authority status, and liquidity metrics for any token you inspect
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16, React 19 |
+| Language | TypeScript 5 |
+| Styling | Tailwind CSS v4, Framer Motion |
+| AI | Google Gemini (`@google/genai`) |
+| Data | Birdeye API |
+| Charts | Recharts |
+| Deployment | Vercel |
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 20+
+- A [Birdeye API key](https://birdeye.so/developer)
+- A [Google Gemini API key](https://aistudio.google.com)
+
+### Installation
 
 ```bash
-# Install dependencies
+git clone https://github.com/Ghostiemoh/wavefront.git
+cd wavefront
 npm install
+```
 
-# Add your Birdeye and Gemini keys to .env.local
-# BIRDEYE_API_KEY_CHARTS=...
-# GEMINI_API_KEY=...
+### Environment Variables
 
-# Start the terminal
+Create a `.env.local` file in the project root:
+
+| Variable | Description |
+|---|---|
+| `BIRDEYE_API_KEY_CHARTS` | Birdeye API key for market data |
+| `GEMINI_API_KEY` | Google Gemini API key for the AI Copilot |
+
+### Run
+
+```bash
 npm run dev
 ```
 
-Built for the Birdeye Data BIP Competition.
+Open [http://localhost:3000](http://localhost:3000).
+
+---
+
+## License
+
+MIT
