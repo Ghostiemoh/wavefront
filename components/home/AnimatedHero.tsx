@@ -77,7 +77,7 @@ export function AnimatedHero({ narratives }: Props) {
           </Link>
 
           <Link
-            href="/playground"
+            href="/terminal"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border-active text-sm font-medium transition-all duration-200 cursor-pointer"
           >
             <Terminal className="w-3.5 h-3.5" strokeWidth={1.5} />

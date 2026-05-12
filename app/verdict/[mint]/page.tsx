@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import {
   Shield,
@@ -20,9 +22,18 @@ import {
 } from "lucide-react";
 import type { RiskVerdict } from "@/lib/intelligence/types";
 import { formatCurrency, formatPercentage, shortenAddress } from "@/lib/formatters";
-import { TokenChart } from "@/components/intelligence/TokenChart";
 import { Copilot } from "@/components/intelligence/Copilot";
 import { isWatchlisted, toggleWatchlist } from "@/lib/watchlist";
+
+const TokenChart = dynamic(
+  () => import("@/components/intelligence/TokenChart").then((m) => m.TokenChart),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-64 skeleton rounded-xl shrink-0" />
+    ),
+  }
+);
 
 function RiskGauge({ grade, score }: { grade: string; score: number }) {
   const gradeClass = grade.startsWith("A")
@@ -136,7 +147,7 @@ export default function VerdictPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen pt-24 pb-12 px-6 max-w-7xl mx-auto space-y-8">
+      <div className="min-h-[100dvh] pt-24 pb-12 px-6 max-w-7xl mx-auto space-y-8">
         <div className="flex items-center gap-4 mb-8">
           <div className="w-12 h-12 rounded-full bg-bg-elevated animate-pulse" />
           <div className="space-y-2">
@@ -181,7 +192,7 @@ export default function VerdictPage() {
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-12 px-6">
+    <div className="min-h-[100dvh] pt-24 pb-12 px-6">
       <div className="max-w-7xl mx-auto">
         <Link
           href="/feed"
@@ -193,10 +204,13 @@ export default function VerdictPage() {
         {/* Token Header */}
         <div className="flex items-center gap-4 mb-8">
           {verdict.logoURI ? (
-            <img
+            <Image
               src={verdict.logoURI}
               alt={verdict.symbol}
+              width={48}
+              height={48}
               className="w-12 h-12 rounded-full"
+              unoptimized
               onError={(e) => {
                 (e.target as HTMLImageElement).style.display = "none";
               }}

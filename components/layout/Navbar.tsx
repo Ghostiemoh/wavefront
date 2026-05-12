@@ -10,7 +10,7 @@ import { getWatchlist } from "@/lib/watchlist";
 const NAV_ITEMS = [
   { href: "/", label: "Home", icon: Home },
   { href: "/feed", label: "Feed", icon: Radio },
-  { href: "/playground", label: "Terminal", icon: Terminal },
+  { href: "/terminal", label: "Terminal", icon: Terminal },
 ];
 
 export function Navbar() {

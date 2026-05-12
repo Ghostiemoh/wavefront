@@ -167,7 +167,7 @@ export function Copilot({ verdict }: CopilotProps) {
               key={idx}
               type="button"
               onClick={() => handleSuggestion(q)}
-              className="text-[11px] px-3 py-1.5 rounded-full bg-bg-surface border border-border text-text-secondary hover:text-accent-cyan hover:border-accent-cyan/50 transition-colors cursor-pointer"
+              className="cursor-pointer text-[11px] px-3 py-1.5 rounded-full bg-bg-surface border border-border text-text-secondary hover:text-accent-cyan hover:border-accent-cyan/50 transition-colors"
             >
               {q}
             </button>

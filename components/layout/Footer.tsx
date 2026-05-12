@@ -1,3 +1,5 @@
+const FOOTER_YEAR = new Date().getFullYear();
+
 export function Footer() {
   return (
     <footer className="max-w-7xl mx-auto px-6 lg:px-8 pt-8 pb-24 sm:pb-10">
@@ -23,7 +25,7 @@ export function Footer() {
           <span className="text-border-subtle">·</span>
           <span>BIP Sprint 4</span>
           <span className="text-border-subtle">·</span>
-          <span className="font-mono">{new Date().getFullYear()}</span>
+          <span className="font-mono">{FOOTER_YEAR}</span>
         </div>
       </div>
     </footer>
