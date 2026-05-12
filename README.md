@@ -2,7 +2,7 @@
 
 > Onchain market intelligence for Solana — narrative clustering, risk scoring, and AI-powered token analysis in one terminal.
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-wavefront--ai.vercel.app-black?style=flat-square)](https://wavefront-ai.vercel.app)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-wavefront--gray.vercel.app-black?style=flat-square)](https://wavefront-gray.vercel.app)
 [![Built with Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)](https://nextjs.org)
 [![Powered by Birdeye](https://img.shields.io/badge/Powered%20by-Birdeye%20API-blue?style=flat-square)](https://birdeye.so)
 
@@ -68,8 +68,6 @@ Create a `.env.local` file in the project root:
 ```bash
 npm run dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000).
 
 ---
 
