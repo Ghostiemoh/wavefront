@@ -10,8 +10,8 @@ import type { ApiLane, BirdeyeApiResponse, CacheEntry } from "./types";
 
 const BIRDEYE_BASE = "https://public-api.birdeye.so";
 const DEFAULT_FETCH_TIMEOUT = 8000;
-const MIN_REQUEST_INTERVAL = 1500; // 1.5s safe buffer for 60 RPM
-const DEFAULT_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+const MIN_REQUEST_INTERVAL = 2000; // 2s safe buffer for 60 RPM (30 RPM effective per lane)
+const DEFAULT_CACHE_TTL = 10 * 60 * 1000; // 10 minutes
 
 const API_KEYS: Record<ApiLane, string> = {
   CHARTS: process.env.BIRDEYE_API_KEY_CHARTS ?? "",

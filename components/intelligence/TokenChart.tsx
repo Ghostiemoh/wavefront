@@ -27,7 +27,9 @@ export function TokenChart({ mint }: TokenChartProps) {
       setIsLoading(true);
       setError(null);
       try {
-        const timeTo = Math.floor(Date.now() / 1000);
+        // Round to nearest 15m (900s) to enable stable URLs for server-side caching
+        const now = Math.floor(Date.now() / 1000);
+        const timeTo = Math.floor(now / 900) * 900;
         const timeFrom = timeTo - 24 * 60 * 60; // 24 hours ago
         const res = await fetch(`/api/history/${mint}?type=15m&timeFrom=${timeFrom}&timeTo=${timeTo}`);
         const json = await res.json();

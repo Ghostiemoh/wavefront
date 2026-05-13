@@ -18,38 +18,30 @@ export async function GET(
     );
   }
 
-  try {
-    const verdict = await generateRiskVerdict(mint);
-
-    // Generate AI summary if we have enough data
-    let aiSummary = verdict.summary;
-    if (verdict.overallScore > 0) {
-      try {
-        const [overview, security] = await Promise.allSettled([
-          fetchTokenOverview(mint),
-          fetchTokenSecurity(mint),
-        ]);
-
-        const overviewData = overview.status === "fulfilled" ? overview.value : null;
-        const securityData = security.status === "fulfilled" ? security.value : null;
-
-        aiSummary = await generateTokenVerdict(
-          verdict.symbol,
-          verdict.name,
-          verdict.overallGrade,
-          verdict.overallScore,
-          verdict.flags,
-          {
-            liquidity: overviewData?.liquidity ?? 0,
-            volume24h: overviewData?.v24hUSD ?? overviewData?.volume24hUSD ?? 0,
-            holderConcentration: securityData?.top10HolderPercent ?? 0,
-            priceChange24h: overviewData?.priceChange24hPercent ?? 0,
-          }
-        );
-      } catch {
-        // AI summary is optional — fallback silently
+    try {
+      const verdict = await generateRiskVerdict(mint);
+  
+      // Generate AI summary if we have enough data
+      let aiSummary = verdict.summary;
+      if (verdict.overallScore > 0) {
+        try {
+          aiSummary = await generateTokenVerdict(
+            verdict.symbol,
+            verdict.name,
+            verdict.overallGrade,
+            verdict.overallScore,
+            verdict.flags,
+            {
+              liquidity: verdict.marketData?.liquidity ?? 0,
+              volume24h: verdict.marketData?.volume24h ?? 0,
+              holderConcentration: 0, // Fallback if not directly in verdict
+              priceChange24h: verdict.marketData?.priceChange24h ?? 0,
+            }
+          );
+        } catch {
+          // AI summary is optional — fallback silently
+        }
       }
-    }
 
     return NextResponse.json({
       success: true,

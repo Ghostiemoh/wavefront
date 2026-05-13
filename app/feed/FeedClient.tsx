@@ -372,7 +372,11 @@ export function FeedClient({
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(fetchAll, 30000);
+    const interval = setInterval(() => {
+      if (document.visibilityState === "visible") {
+        fetchAll();
+      }
+    }, 120000); // 2 minutes
 
     const onVisibilityChange = () => {
       if (document.visibilityState === "visible") fetchAll();

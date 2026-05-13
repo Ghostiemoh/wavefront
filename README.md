@@ -14,6 +14,8 @@ Wavefront transforms raw Solana market data into structured, actionable intellig
 
 Built for the [Birdeye Data BIP Competition](https://birdeye.so).
 
+**Read the deep dive →** [`docs/ARTICLE.md`](docs/ARTICLE.md)
+
 ---
 
 ## Features
