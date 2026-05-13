@@ -18,6 +18,7 @@ export function Navbar() {
   const [watchlistCount, setWatchlistCount] = useState(0);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setWatchlistCount(getWatchlist().length);
     const onStorage = () => setWatchlistCount(getWatchlist().length);
     window.addEventListener("storage", onStorage);
@@ -25,6 +26,7 @@ export function Navbar() {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setWatchlistCount(getWatchlist().length);
   }, [pathname]);
 

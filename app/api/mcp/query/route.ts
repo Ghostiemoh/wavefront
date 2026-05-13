@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { interpretMCPQuery } from "@/lib/ai/gemini";
-import { fetchTrendingTokens, fetchMemeTokens, searchTokens } from "@/lib/birdeye/endpoints";
+import { fetchTrendingTokens, fetchMemeTokens } from "@/lib/birdeye/endpoints";
 
 export const dynamic = "force-dynamic";
 

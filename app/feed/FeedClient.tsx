@@ -329,6 +329,7 @@ export function FeedClient({
   const [watchlist, setWatchlist] = useState<string[]>([]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setWatchlist(getWatchlist());
   }, []);
 

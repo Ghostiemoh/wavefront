@@ -7,7 +7,6 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import {
-  Shield,
   ArrowLeft,
   AlertTriangle,
   CheckCircle,
@@ -21,7 +20,7 @@ import {
   Info,
 } from "lucide-react";
 import type { RiskVerdict } from "@/lib/intelligence/types";
-import { formatCurrency, formatPercentage, shortenAddress } from "@/lib/formatters";
+import { shortenAddress } from "@/lib/formatters";
 import { Copilot } from "@/components/intelligence/Copilot";
 import { isWatchlisted, toggleWatchlist } from "@/lib/watchlist";
 
@@ -122,11 +121,13 @@ export default function VerdictPage() {
   const [bookmarkFlash, setBookmarkFlash] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (mint) setBookmarked(isWatchlisted(mint));
   }, [mint]);
 
   useEffect(() => {
     if (!mint) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsLoading(true);
     fetch(`/api/verdict/${mint}`)
       .then((r) => r.json())

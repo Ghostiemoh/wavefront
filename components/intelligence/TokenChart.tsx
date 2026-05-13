@@ -37,7 +37,7 @@ export function TokenChart({ mint }: TokenChartProps) {
         } else {
           if (isMounted) setError("Failed to load chart data");
         }
-      } catch (err) {
+      } catch {
         if (isMounted) setError("Network error");
       } finally {
         if (isMounted) setIsLoading(false);
@@ -82,7 +82,7 @@ export function TokenChart({ mint }: TokenChartProps) {
   }
 
   const isPositive = data[data.length - 1].c >= data[0].c;
-  const color = isPositive ? "var(--accent-emerald)" : "var(--accent-red)";
+  const color = isPositive ? "var(--color-accent-emerald)" : "var(--color-accent-red)";
 
   return (
     <div className="w-full h-64 bg-bg-surface border border-border rounded-xl p-4 flex flex-col">
@@ -104,7 +104,7 @@ export function TokenChart({ mint }: TokenChartProps) {
               dataKey="time" 
               axisLine={false} 
               tickLine={false} 
-              tick={{ fill: 'var(--text-muted)', fontSize: 10 }}
+              tick={{ fill: 'var(--color-text-muted)', fontSize: 10 }}
               minTickGap={30}
             />
             <YAxis 

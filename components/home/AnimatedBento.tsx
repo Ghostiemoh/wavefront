@@ -57,7 +57,7 @@ export function AnimatedBento() {
                 </h3>
                 <p className="text-sm text-text-secondary leading-relaxed max-w-[44ch]">
                   Detects emerging onchain themes before they trend publicly.
-                  Gaming, AI, DeFi, DePIN — know what's rotating and why,
+                  Gaming, AI, DeFi, DePIN — know what&apos;s rotating and why,
                   minutes before CT does.
                 </p>
               </div>

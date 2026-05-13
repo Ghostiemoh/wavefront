@@ -44,9 +44,10 @@ Your persona:
       success: true,
       text: response.response.text().trim() || "I cannot analyze that right now.",
     });
-  } catch (error: any) {
-    console.error("Copilot error:", error);
-    if (error.status === 429) {
+  } catch (error: unknown) {
+    const err = error as Error & { status?: number };
+    console.error("Copilot error:", err);
+    if (err.status === 429) {
       return NextResponse.json({ 
         success: true, 
         text: "I'm currently processing a high volume of requests. Please wait a moment before asking another question." 

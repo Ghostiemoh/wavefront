@@ -10,7 +10,7 @@ import type { ApiLane, BirdeyeApiResponse, CacheEntry } from "./types";
 
 const BIRDEYE_BASE = "https://public-api.birdeye.so";
 const DEFAULT_FETCH_TIMEOUT = 8000;
-const MIN_REQUEST_INTERVAL = 1100; // 1.1s safe buffer for 60 RPM
+const MIN_REQUEST_INTERVAL = 1500; // 1.5s safe buffer for 60 RPM
 const DEFAULT_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 const API_KEYS: Record<ApiLane, string> = {
@@ -111,6 +111,21 @@ export async function birdeyeFetch<T>(
         }
 
         if (response.status === 429) {
+          // Final retry for 429s with a small delay
+          console.warn(`[Birdeye] 429 on CHARTS lane. Retrying once after delay...`);
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          const retryResponse = await fetch(url.toString(), {
+            headers: getHeaders(lane),
+            signal: controller.signal,
+          });
+          if (retryResponse.ok) {
+            const json = (await retryResponse.json()) as BirdeyeApiResponse<T>;
+            if (json.success) {
+              setCache(cacheKey, json.data, cacheTtl);
+              return json.data;
+            }
+          }
+
           const stale = getStaleCached<T>(cacheKey);
           if (stale) return stale;
           throw new Error(`Birdeye rate limit (429) on ${path}`);
