@@ -22,17 +22,8 @@ import {
 import type { RiskVerdict } from "@/lib/intelligence/types";
 import { shortenAddress } from "@/lib/formatters";
 import { Copilot } from "@/components/intelligence/Copilot";
+import { TokenStats } from "@/components/intelligence/TokenStats";
 import { isWatchlisted, toggleWatchlist } from "@/lib/watchlist";
-
-const TokenChart = dynamic(
-  () => import("@/components/intelligence/TokenChart").then((m) => m.TokenChart),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="w-full h-64 skeleton rounded-xl shrink-0" />
-    ),
-  }
-);
 
 function RiskGauge({ grade, score }: { grade: string; score: number }) {
   const gradeClass = grade.startsWith("A")
@@ -161,7 +152,17 @@ export default function VerdictPage() {
         </p>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[700px]">
           <div className="lg:col-span-2 space-y-6 h-full flex flex-col">
-            <div className="w-full h-64 bg-bg-surface border border-border rounded-xl animate-pulse shrink-0" />
+            <div className="w-full h-[220px] bg-bg-surface border border-border rounded-xl animate-pulse shrink-0 p-6">
+              <div className="w-32 h-4 bg-bg-elevated rounded mb-6" />
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className="space-y-2">
+                    <div className="w-16 h-2 bg-bg-elevated rounded" />
+                    <div className="w-24 h-5 bg-bg-elevated rounded" />
+                  </div>
+                ))}
+              </div>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1">
               <div className="w-full h-full bg-bg-surface border border-border rounded-xl animate-pulse" />
               <div className="w-full h-full bg-bg-surface border border-border rounded-xl animate-pulse" />
@@ -268,7 +269,7 @@ export default function VerdictPage() {
           {/* Left Column: Chart & Breakdown */}
           <div className="lg:col-span-2 flex flex-col gap-6 h-full">
             <div className="shrink-0">
-              <TokenChart mint={mint} />
+              <TokenStats verdict={verdict} />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 min-h-[250px]">

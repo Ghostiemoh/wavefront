@@ -216,5 +216,13 @@ export async function generateRiskVerdict(address: string): Promise<RiskVerdict>
     flags: securityResult.flags,
     summary: "",
     generatedAt: Date.now(),
+    marketData: overviewData ? {
+      price: overviewData.price ?? 0,
+      priceChange24h: overviewData.priceChange24hPercent ?? 0,
+      volume24h: overviewData.v24hUSD ?? overviewData.volume24hUSD ?? 0,
+      marketCap: overviewData.mc ?? overviewData.fdv ?? 0,
+      liquidity: overviewData.liquidity ?? 0,
+      holders: overviewData.holder ?? 0,
+    } : undefined,
   };
 }

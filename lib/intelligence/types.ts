@@ -59,6 +59,14 @@ export interface RiskVerdict {
   flags: string[];
   summary: string;
   generatedAt: number;
+  marketData?: {
+    price: number;
+    priceChange24h: number;
+    volume24h: number;
+    marketCap: number;
+    liquidity: number;
+    holders: number;
+  };
 }
 
 export interface IntelligenceItem {
